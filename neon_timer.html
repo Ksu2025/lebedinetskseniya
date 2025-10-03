@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neon Countdown Timer</title>
+  <style>
+    body {
+      background: #0d1117;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .timer {
+      background-color: #0d1117;
+      border: 2px solid #00bfff;
+      border-radius: 20px;
+      padding: 40px 60px;
+      box-shadow: 0 0 25px #00bfff;
+      text-align: center;
+      font-size: 60px;
+      color: #00bfff;
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .timer span {
+      display: inline-block;
+      min-width: 80px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 22px;
+      color: #00bfff;
+      background-color: transparent;
+      border: 2px solid #00bfff;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00bfff;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #00bfff;
+      color: #0d1117;
+      box-shadow: 0 0 25px #00bfff;
+    }
+
+    .finished {
+      font-size: 40px;
+      color: #ff4081;
+      text-shadow: 0 0 10px #ff4081;
+      animation: vibrate 0.3s infinite;
+    }
+
+    @keyframes vibrate {
+      0% { transform: translate(0px, 0px); }
+      25% { transform: translate(-2px, 2px); }
+      50% { transform: translate(2px, -2px); }
+      75% { transform: translate(-2px, -2px); }
+      100% { transform: translate(2px, 2px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer" id="countdown">
+    <span id="minutes">01</span>:<span id="seconds">00</span>
+  </div>
+
+  <button id="startBtn">Start</button>
+
+  <script>
+    let totalSeconds = 60;
+    let started = false;
+
+    function updateTimer() {
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        setTimeout(updateTimer, 1000);
+      } else {
+        document.getElementById('countdown').innerHTML = "<div class='finished'>⏰ Time's up!</div>";
+      }
+    }
+
+    document.getElementById("startBtn").addEventListener("click", function() {
+      if (!started) {
+        started = true;
+        document.getElementById("countdown").style.display = "block";
+        this.style.display = "none";
+        updateTimer();
+      }
+    });
+  </script>
+
+</body>
+</html>
